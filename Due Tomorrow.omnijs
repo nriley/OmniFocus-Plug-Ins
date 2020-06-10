@@ -4,7 +4,7 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.MakeDueTomorrow",
-    "version": "1.0",
+    "version": "1.0.1",
     "description": "Make the selected tasks due tomorrow.",
     "defaultLocale": "en",
     "label": "Make Due Tomorrow",
@@ -25,7 +25,7 @@
 
         const tasks = selection.tasks;
         const calendar = Calendar.current;
-        const tomorrow = dueDateAddingDays(new Date(), 0);
+        const tomorrow = dueDateAddingDays(new Date(), 1);
 
         tasks.forEach(task => {
             var dueDate = task.dueDate;
