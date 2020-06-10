@@ -1,0 +1,45 @@
+/*{
+
+    "type": "action",
+    "targets": ["omnifocus"],
+    "author": "Nicholas Riley",
+    "identifier": "net.sabi.omnifocus.MakeDueTomorrow",
+    "version": "1.0",
+    "description": "Make the selected tasks due tomorrow.",
+    "defaultLocale": "en",
+    "label": "Make Due Tomorrow",
+    "shortLabel": "Tomorrow"
+}*/
+(() => {
+    const dueHour = 21; // if no existing due time - change if desired
+
+    var action = new PlugIn.Action(selection => {
+        const dueDateAddingDays = (date, days) => {
+            if (days) date.setDate(days + date.getDate());
+            date.setHours(dueHour);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+            return date;
+        };
+
+        const tasks = selection.tasks;
+        const calendar = Calendar.current;
+        const tomorrow = dueDateAddingDays(new Date(), 0);
+
+        tasks.forEach(task => {
+            var dueDate = task.dueDate;
+            if (dueDate === null) dueDate = tomorrow;
+            else {
+                var timeOffset = calendar.startOfDay(tomorrow).getTime() - calendar.startOfDay(dueDate).getTime();
+                dueDate.setTime(dueDate.getTime() + timeOffset);
+            }
+            task.dueDate = dueDate;
+        });
+    });
+
+    action.validate = selection => 
+        selection.tasks.length > 0;
+
+    return action;
+})();
