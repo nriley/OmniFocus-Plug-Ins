@@ -4,8 +4,8 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.PostponeByDays",
-    "version": "1.0.2",
-    "description": "Postpone the defer and due dates of the selected tasks by a certain number of days.",
+    "version": "1.0.3",
+    "description": "Postpone the defer and due dates of the selected task(s) by a certain number of days.",
     "defaultLocale": "en",
     "label": "Postpone By Days...",
     "shortLabel": "Postpone"
@@ -32,7 +32,7 @@
         var tasks = postponableTasks(selection.tasks);
 
         var inputForm = new Form();
-        var daysPrompt = 'Postpone defer and due dates of ' + tasks.length + ' task';
+        var daysPrompt = 'Postpone defer/due dates of ' + tasks.length + ' task';
         if (tasks.length > 1) daysPrompt += 's';
         daysPrompt += ' by days';
         var daysField = new Form.Field.String('days', daysPrompt);
