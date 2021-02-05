@@ -4,8 +4,8 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.ClearDates",
-    "version": "1.0",
-    "description": "Clear the defer and due dates of the selected tasks.",
+    "version": "1.0.1",
+    "description": "Clear the defer and due dates of the selected task(s).",
     "defaultLocale": "en",
     "label": "Clear Dates",
     "shortLabel": "Clear"
