@@ -4,12 +4,13 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.PostponeByDays",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Postpone the defer and due dates of the selected task(s) by a certain number of days.",
     "defaultLocale": "en",
     "label": "Postpone By Days...",
     "shortLabel": "Postpone"
 }*/
+/// <reference path="OmniFocus.d.ts" />
 (() => {
     const postponableTasks = tasks => 
         tasks.filter(
@@ -38,7 +39,7 @@
         var daysField = new Form.Field.String('days', daysPrompt);
         if (Device.current.iOS)
             daysField.keyboardType = KeyboardType.NumberPad;
-        inputForm.addField(daysField);
+        inputForm.addField(daysField, 0);
         inputForm.validate = form =>
             parseDays(form.values.days) > 0;
 

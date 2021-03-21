@@ -4,12 +4,13 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.ClearDates",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Clear the defer and due dates of the selected task(s).",
     "defaultLocale": "en",
     "label": "Clear Dates",
     "shortLabel": "Clear"
 }*/
+/// <reference path="OmniFocus.d.ts" />
 (() => {
     const tasksWithDates = tasks => 
         tasks.filter(

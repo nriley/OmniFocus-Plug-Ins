@@ -4,12 +4,13 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.MakeDueToday",
-    "version": "1.0",
+    "version": "1.0.1",
     "description": "Make the selected tasks due today.",
     "defaultLocale": "en",
     "label": "Make Due Today",
     "shortLabel": "Today"
 }*/
+/// <reference path="OmniFocus.d.ts" />
 (() => {
     const dueHour = 21; // if no existing due time - change if desired
 
