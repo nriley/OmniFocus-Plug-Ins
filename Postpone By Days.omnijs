@@ -36,7 +36,9 @@
         var daysPrompt = 'Postpone defer/due dates of ' + tasks.length + ' task';
         if (tasks.length > 1) daysPrompt += 's';
         daysPrompt += ' by days';
-        var daysField = new Form.Field.String('days', daysPrompt);
+        // iOS doesn't select the text in the field by default
+        var defaultDays = (Device.current.mac) ? 7 : null;
+        var daysField = new Form.Field.String('days', daysPrompt, defaultDays, null);
         if (Device.current.iOS)
             daysField.keyboardType = KeyboardType.NumberPad;
         inputForm.addField(daysField, 0);
