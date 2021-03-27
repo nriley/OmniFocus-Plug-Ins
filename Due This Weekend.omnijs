@@ -4,7 +4,7 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.MakeDueThisWeekend",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Make the selected task(s) due this weekend.",
     "defaultLocale": "en",
     "label": "Make Due This Weekend",
@@ -18,8 +18,10 @@
     var action = new PlugIn.Action(selection => {
         const dateFormatter = Formatter.Date.withStyle(Formatter.Date.Style.Short, null);
         const tasks = selection.tasks;
-        const deferDate = dateFormatter.dateFromString(defer);
         const dueDate = dateFormatter.dateFromString(due);
+        var deferDate = dateFormatter.dateFromString(defer);
+        if (deferDate > dueDate) // it is the weekend
+            deferDate = dateFormatter.dateFromString("this " + defer);
 
         tasks.forEach(task => {
             task.deferDate = deferDate;
