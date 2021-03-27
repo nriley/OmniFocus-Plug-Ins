@@ -18,7 +18,6 @@
     var action = new PlugIn.Action(selection => {
         const dateFormatter = Formatter.Date.withStyle(Formatter.Date.Style.Short, null);
         const tasks = selection.tasks;
-        const calendar = Calendar.current;
         const deferDate = dateFormatter.dateFromString(defer);
         const dueDate = dateFormatter.dateFromString(due);
 
