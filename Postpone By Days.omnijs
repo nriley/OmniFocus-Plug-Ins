@@ -4,7 +4,7 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.PostponeByDays",
-    "version": "1.0.4",
+    "version": "1.1",
     "description": "Postpone the defer and due dates of the selected task(s) by a certain number of days.",
     "defaultLocale": "en",
     "label": "Postpone By Days...",
@@ -12,6 +12,9 @@
 }*/
 /// <reference path="OmniFocus.d.ts" />
 (() => {
+    const deferHour = 8; // if no existing defer time - change if desired
+    const dueHour = 21; // if no existing due time - change if desired
+
     const postponableTasks = tasks => 
         tasks.filter(
             task => (task.deferDate !== null) || (task.dueDate !== null)
@@ -21,7 +24,6 @@
         const parseDays = daysString => { 
             var days = Number.parseInt(daysString);
             if (days != daysString) return 0;
-            if (days < 1) return 0;
             return days;
         };
 
@@ -29,6 +31,18 @@
             if (date) date.setDate(days + date.getDate());
             return date;
         };
+
+        function dateAddingDaysDefaultHour(date, days, defaultHour) {
+            if (!date) {
+                date = new Date();
+                date.setHours(defaultHour);
+                date.setMinutes(0);
+                date.setSeconds(0);
+                date.setMilliseconds(0);
+            }
+            date.setDate(days + date.getDate());
+            return date;
+        }
 
         var tasks = postponableTasks(selection.tasks);
 
@@ -43,14 +57,43 @@
             daysField.keyboardType = KeyboardType.NumberPad;
         inputForm.addField(daysField, 0);
         inputForm.validate = form =>
-            parseDays(form.values.days) > 0;
+            ((parseDays(form.values.days) > 0) || (form.values.after != 0));
+
+        var afterMenu = new Form.Field.Option(
+            'after', "After",
+            [0, 1, -1],
+            ['existing defer/due dates', 'today (setting defer date)', 'today (setting due date)'],
+            0, "");
+        inputForm.addField(afterMenu, 1);
 
         inputForm.show('Postpone by Days', 'Postpone').then(form => {
-            const dateByAddingSpecifiedDays = dateByAddingDays(parseDays(form.values.days));
-            tasks.forEach(task => {
-                task.deferDate = dateByAddingSpecifiedDays(task.deferDate);
-                task.dueDate = dateByAddingSpecifiedDays(task.dueDate);
-            });
+            if (form.values.after == 0) {
+                const dateByAddingSpecifiedDays = dateByAddingDays(parseDays(form.values.days));
+                tasks.forEach(task => {
+                    task.deferDate = dateByAddingSpecifiedDays(task.deferDate);
+                    task.dueDate = dateByAddingSpecifiedDays(task.dueDate);
+                });
+            } else {
+                const calendar = Calendar.current;
+                const days = parseDays(form.values.days);
+                tasks.forEach(task => {
+                    const hasDeferAndDue = (task.deferDate && task.dueDate);
+                    var deferToDue, todayToDate;
+                    if (form.values.after == 1) {
+                        if (hasDeferAndDue)
+                            deferToDue = calendar.dateComponentsBetweenDates(task.deferDate, task.dueDate);
+                        task.deferDate = dateAddingDaysDefaultHour(task.deferDate, days, deferHour);
+                        if (hasDeferAndDue)
+                            task.dueDate = calendar.dateByAddingDateComponents(task.deferDate, deferToDue);
+                    } else if (form.values.after == -1) {
+                        if (hasDeferAndDue)
+                            deferToDue = calendar.dateComponentsBetweenDates(task.dueDate, task.deferDate);
+                        task.dueDate = dateAddingDaysDefaultHour(task.dueDate, days, dueHour);
+                        if (hasDeferAndDue)
+                            task.deferDate = calendar.dateByAddingDateComponents(task.dueDate, deferToDue);
+                    }
+                })
+            }
         });
     });
 
