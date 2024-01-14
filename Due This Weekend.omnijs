@@ -4,17 +4,18 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.MakeDueThisWeekend",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Make the selected task(s) due this weekend.",
     "defaultLocale": "en",
     "label": "Make Due This Weekend",
-    "shortLabel": "This Weekend"
+    "shortLabel": "This Weekend",
+    "image": "calendar.badge.exclamationmark"
 }*/
 /// <reference path="OmniFocus.d.ts" />
 (() => {
     const defer = "Friday 18:00";
-    const due = "Sunday 22:00"; 
-    
+    const due = "Sunday 22:00";
+
     var action = new PlugIn.Action(selection => {
         const dateFormatter = Formatter.Date.withStyle(Formatter.Date.Style.Short, null);
         const tasks = selection.tasks;
@@ -29,7 +30,7 @@
         });
     });
 
-    action.validate = selection => 
+    action.validate = selection =>
         selection.tasks.length > 0;
 
     return action;

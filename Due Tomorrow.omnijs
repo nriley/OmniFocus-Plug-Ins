@@ -4,11 +4,12 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.MakeDueTomorrow",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Make the selected tasks due tomorrow.",
     "defaultLocale": "en",
     "label": "Make Due Tomorrow",
-    "shortLabel": "Tomorrow"
+    "shortLabel": "Tomorrow",
+    "image": "calendar.badge.plus"
 }*/
 /// <reference path="OmniFocus.d.ts" />
 (() => {
@@ -39,7 +40,7 @@
         });
     });
 
-    action.validate = selection => 
+    action.validate = selection =>
         selection.tasks.length > 0;
 
     return action;

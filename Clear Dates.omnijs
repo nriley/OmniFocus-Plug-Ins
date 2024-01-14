@@ -4,15 +4,16 @@
     "targets": ["omnifocus"],
     "author": "Nicholas Riley",
     "identifier": "net.sabi.omnifocus.ClearDates",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Clear the defer and due dates of the selected task(s).",
     "defaultLocale": "en",
     "label": "Clear Dates",
-    "shortLabel": "Clear"
+    "shortLabel": "Clear",
+    "image": "calendar.badge.minus"
 }*/
 /// <reference path="OmniFocus.d.ts" />
 (() => {
-    const tasksWithDates = tasks => 
+    const tasksWithDates = tasks =>
         tasks.filter(
             task => (task.deferDate !== null) || (task.dueDate !== null)
         );
@@ -26,7 +27,7 @@
         });
     });
 
-    action.validate = selection => 
+    action.validate = selection =>
         tasksWithDates(selection.tasks).length > 0;
 
     return action;
